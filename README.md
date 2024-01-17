@@ -45,5 +45,6 @@ Generated Images
 ## Improvements
 - bigger input matrix for generator (ex. 50x5 instead of 1x5); this means more data has to be collected
 - we could predict the color of the image instead of generating the image; this shift the task to a classifcation one, and ligthens the model (since we don't need 28x28x3 but just a few pixels)
+- normalization of input data (!)
 - another model
 - more epochs (like 1000s)
