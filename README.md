@@ -23,4 +23,6 @@ Two dataset were created:
 
 ## Model
 
-A simple GAN was implemented. The generator input is an array ...
+A simple GAN was implemented. The generator input is an array of floats, length is 5 (one datapoint for each kind of brainwave). Its output is a rgb image 28x28x3. The discriminator input is the image generated and its output is a "judgement", which is a float that can be positive or negative. Loss function is cross_entropy for either the generator and the discriminator.
+
+## Results
