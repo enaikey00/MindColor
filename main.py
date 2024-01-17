@@ -1,7 +1,6 @@
-## --- Titolo Progetto ---
+## --- Titolo: MindColor ---
 
 ## --- Imports and Libraries ---
-
 import tensorflow as tf
 import glob
 import imageio
@@ -36,7 +35,7 @@ if __name__ == "__main__":
   # Load Brain Waves
   BUFFER_SIZE = 1500 * 2 # about 1500 samples for each image class
   colnames = ["α_wave", "β_wave", "δ_wave", "θ_wave", "γ_wave"]
-  df = pd.read_csv("./data/waves/final_df.csv", names=colnames) # will be rosso_blue_green_yellow.csv
+  df = pd.read_csv("./data/waves/final_df.csv", names=colnames)
   print(df.head())
   waves_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(df.values))
   waves_dataset = waves_dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE)
@@ -134,19 +133,14 @@ if __name__ == "__main__":
   ## --- Train Loop ---
   # Constants
   EPOCHS = 50
-  noise_dim = 5 # this will be "brain waves dimension"
+  noise_dim = 5 # this is "brain waves dimension"
   num_examples_to_generate = 16
-
-  # You will reuse this seed overtime (so it's easier)
-  # to visualize progress in the animated GIF)
-  seed = tf.random.normal([num_examples_to_generate, noise_dim])
 
   # Notice the use of `tf.function`
   # This annotation causes the function to be "compiled".
   @tf.function
   def train_step(images, noise):
-      #noise = tf.random.normal([BATCH_SIZE, noise_dim]) # next(generator_function()) batch_size x 5 (numero di frequenze)
-      print(noise)
+      #print(noise)
 
       with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
         generated_images = generator(noise, training=True)
@@ -173,7 +167,7 @@ if __name__ == "__main__":
     for epoch in range(epochs):
       start = time.time()
 
-      for image_batch, wave_batch in zip(dataset, waves_dataset): # try this without the dataset_gen; change generator input shape to (5,)
+      for image_batch, wave_batch in zip(dataset, waves_dataset):
         noise = wave_batch
         gen_loss, disc_loss = train_step(image_batch, noise)
       
@@ -264,9 +258,9 @@ if __name__ == "__main__":
   BATCH_SIZE = 8
 
   # Load Brain Waves
-  BUFFER_SIZE = 1500 * 2 # about 1500 samples for each image class
+  BUFFER_SIZE = 1500 * 2 
   colnames = ["α_wave", "β_wave", "δ_wave", "θ_wave", "γ_wave"]
-  df = pd.read_csv("./data/test/waves/df.csv", names=colnames) # will be rosso_blue_green_yellow.csv
+  df = pd.read_csv("./data/test/waves/df.csv", names=colnames)
   print(df.head())
   waves_testset = tf.data.Dataset.from_tensor_slices(tf.constant(df.values))
   waves_testset = waves_testset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE)
